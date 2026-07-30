@@ -1,0 +1,255 @@
+{
+  "app_name": "ASA Connect",
+  "personality": "1 iOS-Native Clean with 6 Glass / Luxe surfaces",
+  "personality_one_liner": "A premium, Apple-inspired professional networking hub that feels as fluid and visually engaging as a modern social app.",
+  "color": {
+    "light": {
+      "surface": "#F9F9FA",
+      "onSurface": "#111112",
+      "surfaceSecondary": "#FFFFFF",
+      "onSurfaceSecondary": "#3A3A3C",
+      "surfaceTertiary": "#F0F0F2",
+      "onSurfaceTertiary": "#5C5C60",
+      "surfaceInverse": "#111112",
+      "onSurfaceInverse": "#F9F9FA",
+      "brand": "#047857",
+      "brandPrimary": "#059669",
+      "onBrandPrimary": "#FFFFFF",
+      "brandSecondary": "#D1FAE5",
+      "onBrandSecondary": "#065F46",
+      "brandTertiary": "#A7F3D0",
+      "onBrandTertiary": "#064E3B",
+      "success": "#16A34A",
+      "onSuccess": "#FFFFFF",
+      "warning": "#F59E0B",
+      "onWarning": "#FFFFFF",
+      "error": "#EF4444",
+      "onError": "#FFFFFF",
+      "info": "#6B7280",
+      "onInfo": "#FFFFFF",
+      "border": "#E4E4E7",
+      "borderStrong": "#D4D4D8",
+      "divider": "#F4F4F5"
+    },
+    "dark": {
+      "surface": "#0A0A0C",
+      "onSurface": "#F9F9FA",
+      "surfaceSecondary": "#141416",
+      "onSurfaceSecondary": "#EBEBEF",
+      "surfaceTertiary": "#1C1C1E",
+      "onSurfaceTertiary": "#98989F",
+      "surfaceInverse": "#F9F9FA",
+      "onSurfaceInverse": "#111112",
+      "brand": "#34D399",
+      "brandPrimary": "#10B981",
+      "onBrandPrimary": "#022C22",
+      "brandSecondary": "#065F46",
+      "onBrandSecondary": "#D1FAE5",
+      "brandTertiary": "#064E3B",
+      "onBrandTertiary": "#A7F3D0",
+      "success": "#22C55E",
+      "onSuccess": "#022C22",
+      "warning": "#FBBF24",
+      "onWarning": "#451A03",
+      "error": "#F87171",
+      "onError": "#450A0A",
+      "info": "#9CA3AF",
+      "onInfo": "#111827",
+      "border": "#27272A",
+      "borderStrong": "#3F3F46",
+      "divider": "#18181B"
+    }
+  },
+  "typography": {
+    "displayFontFamily": "Geist",
+    "textFontFamily": "Geist",
+    "scale": {
+      "sm": 12,
+      "base": 14,
+      "lg": 16,
+      "xl": 20,
+      "2xl": 24
+    }
+  },
+  "spacing": {
+    "rule": "Generous vertical rhythm. Use md/lg padding inside cards. Avoid dense clusters; use whitespace to group items visually.",
+    "xs": 4,
+    "sm": 8,
+    "md": 12,
+    "lg": 16,
+    "xl": 24,
+    "2xl": 32,
+    "3xl": 48
+  },
+  "radius_tokens": {
+    "sm": 6,
+    "md": 12,
+    "lg": 20,
+    "pill": 999
+  },
+  "shadow_tier": "1",
+  "navigation": "bottom_tabs",
+  "icon_set": "Phosphor",
+  "glassmorphism": {
+    "enabled": "true",
+    "do's": [
+      "Bottom tab bar",
+      "Sticky headers over scrolling content",
+      "Bottom-sheet headers and drag handles",
+      "Floating action buttons (FAB)",
+      "Featured Match cards floating info panel"
+    ],
+    "dont's": [
+      "Every button",
+      "List rows",
+      "Chips",
+      "Form inputs",
+      "Body content regions"
+    ]
+  },
+  "platform_libraries": {
+    "glass": {
+      "ios": "expo-glass-effect",
+      "android": "expo-blur",
+      "low_end_android_fallback": "solid surfaceSecondary"
+    },
+    "image": "expo-image",
+    "blur": "expo-blur",
+    "bottom_sheet": "@gorhom/bottom-sheet",
+    "animation": "react-native-reanimated",
+    "gesture": "react-native-gesture-handler"
+  },
+  "micro_animations": {
+    "swipe_cards": "Tinder-like physical spring animation using react-native-reanimated and gesture-handler. Rotation mapped to X translation. Heart/X opacity scales with drag distance.",
+    "story_ring_pulse": "Continuous subtle scale pulse (1.0 to 1.05) on the active story ring.",
+    "xp_counter": "Number ticker increments rapidly with subtle haptic ticks on every multiple of 10.",
+    "graph_node_expand": "Spring expansion when a node is tapped, dimming surrounding nodes and drawing a highlighted edge path to the target."
+  },
+  "screens": [
+    {
+      "name": "Splash",
+      "purpose": "Brand presentation and loading.",
+      "states": {
+        "loading": "Full bleed gradient background with ASA Connect logo. Subtle shimmer."
+      },
+      "layout": "Center aligned logo, bottom aligned copyright or loading spinner."
+    },
+    {
+      "name": "Onboarding",
+      "purpose": "Introduce the super-app capabilities (Connect, Match, Grow).",
+      "layout": "Full bleed scenes per step using expo-image with top-to-bottom scrim. Pager dot indicator, sticky primary CTA at bottom."
+    },
+    {
+      "name": "Login/Signup",
+      "purpose": "Authenticate user.",
+      "layout": "Clean single column form. Avoid floating labels. CTA pinned to bottom inside KeyboardAvoidingView."
+    },
+    {
+      "name": "Home",
+      "purpose": "Primary discovery feed. Stories and personalized feed.",
+      "states": {
+        "loading": "Skeleton rows matching card shapes.",
+        "empty": "Illustration + 'Follow companies to see updates' + CTA.",
+        "error": "Failed to load feed message + Retry button."
+      },
+      "layout": "Header with app logo and notification bell. Horizontal ScrollView for Stories (Instagram style, brand avatars with brandPrimary rings). Vertical ScrollView below for Feed cards. Cards use soft surfaceSecondary, borderless, with clear typography and subtle divider lines. Glassmorphism on sticky top header."
+    },
+    {
+      "name": "Match",
+      "purpose": "Tinder-style job/opportunity discovery.",
+      "states": {
+        "empty": "Illustration + 'You caught up! Come back later for more matches.'",
+        "loading": "Center spinner."
+      },
+      "layout": "Full screen stack of swipe cards. Each card contains a hero image/logo, overlaid with a bottom-to-top scrim. Job title, salary, location, and match % badge in the bottom 30%. Bottom floating action row with Pass/SuperMatch/Like buttons."
+    },
+    {
+      "name": "Networking Graph",
+      "purpose": "Visual node-edge representation of connections.",
+      "layout": "Interactive Reanimated canvas. Nodes represent users/companies. Edges show connections. Top floating glass panel for search/filter. Bottom sheet for node details when a node is tapped (BFS/Dijkstra distance: 'You are 3 connections away')."
+    },
+    {
+      "name": "Company Page",
+      "purpose": "Deep dive into a company's opportunities and culture.",
+      "layout": "Hero banner with cover image and scrim. Floating logo overlapping banner. Tabbed content area (Feed, Jobs, Events, Mentors). Glass sticky header appears on scroll."
+    },
+    {
+      "name": "Profile",
+      "purpose": "User's rich resume and gamification status.",
+      "layout": "Header with avatar, name, semester. Gamification widget (XP bar, level badge). Sections for GitHub/LinkedIn links, portfolio, skills chips, and certificates. Clean iOS list styling."
+    },
+    {
+      "name": "AI Assistant Chat",
+      "purpose": "Conversational UI to discover opportunities contextually.",
+      "layout": "Standard chat interface. User bubbles surfaceSecondary, AI bubbles brandTertiary. Sticky input field with KeyboardAvoidingView. Glassmorphism header."
+    },
+    {
+      "name": "Notifications",
+      "purpose": "Activity hub.",
+      "layout": "Simple vertical list with avatars and timestamp. Unread items have brandPrimary dot."
+    }
+  ],
+  "images": {
+    "ibm_logo": {
+      "url": "https://images.unsplash.com/photo-1562705121-e624542c7b9b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NTJ8MHwxfHNlYXJjaHwxfHxJQk0lMjBsb2dvJTIwcG5nfGVufDB8fHx8MTc4NTI0NDYzNnww&ixlib=rb-4.1.0&q=85",
+      "alt": "IBM Logo"
+    },
+    "microsoft_logo": {
+      "url": "https://images.pexels.com/photos/10142683/pexels-photo-10142683.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "alt": "Microsoft Office"
+    },
+    "deloitte_logo": {
+      "url": "https://images.unsplash.com/photo-1763933356190-6e86bb9faad8?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1Mjh8MHwxfHNlYXJjaHwxfHxEZWxvaXR0ZSUyMGxvZ28lMjBwbmd8ZW58MHx8fHwxNzg1MjQ0NjM2fDA&ixlib=rb-4.1.0&q=85",
+      "alt": "Deloitte Building"
+    },
+    "nubank_logo": {
+      "url": "https://images.pexels.com/photos/5750232/pexels-photo-5750232.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "alt": "Nubank Card"
+    },
+    "google_logo": {
+      "url": "https://images.pexels.com/photos/13628541/pexels-photo-13628541.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "alt": "Google Logo"
+    },
+    "sap_building": {
+      "url": "https://images.unsplash.com/photo-1784835556350-4e3e3c896aaf?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2OTV8MHwxfHNlYXJjaHwxfHxTQVAlMjBjb21wYW55JTIwYnVpbGRpbmd8ZW58MHx8fHwxNzg1MjQ0NjQ2fDA&ixlib=rb-4.1.0&q=85",
+      "alt": "SAP Building"
+    },
+    "xp_building": {
+      "url": "https://images.unsplash.com/photo-1715118989089-bf1bdc4903fe?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTJ8MHwxfHNlYXJjaHwxfHxYUCUyMEludmVzdGltZW50b3MlMjBidWlsZGluZ3xlbnwwfHx8fDE3ODUyNDQ2NDZ8MA&ixlib=rb-4.1.0&q=85",
+      "alt": "XP Investimentos"
+    },
+    "student_avatar_1": {
+      "url": "https://images.unsplash.com/photo-1654110455429-cf322b40a906?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAxODF8MHwxfHNlYXJjaHwxfHxzdHVkZW50JTIwYXZhdGFyJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzg1MjQ0NjM2fDA&ixlib=rb-4.1.0&q=85",
+      "alt": "Student Avatar 1"
+    },
+    "student_avatar_2": {
+      "url": "https://images.pexels.com/photos/37529736/pexels-photo-37529736.png?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "alt": "Student Avatar 2"
+    },
+    "event_cover": {
+      "url": "https://images.unsplash.com/photo-1756273343749-63f7d6ea0cda?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTB8MHwxfHNlYXJjaHwxfHxoYWNrYXRob24lMjBldmVudCUyMGNvdmVyfGVufDB8fHx8MTc4NTI0NDYzN3ww&ixlib=rb-4.1.0&q=85",
+      "alt": "Hackathon Event"
+    },
+    "network_blank_state": {
+      "url": "https://images.unsplash.com/photo-1545987796-200677ee1011?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzh8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBuZXR3b3JraW5nJTIwYmxhbmslMjBzdGF0ZXxlbnwwfHx8fDE3ODUyNDQ2NDZ8MA&ixlib=rb-4.1.0&q=85",
+      "alt": "Network Nodes Abstract"
+    }
+  },
+  "haptics": {
+    "swipe_match": "light impact",
+    "swipe_pass": "light impact",
+    "super_match": "heavy impact",
+    "node_tap": "medium impact",
+    "story_open": "light impact",
+    "xp_gain": "success feedback"
+  },
+  "instructions_to_main_agent": [
+    "Strictly follow the color palette provided. Do not use generic blues or indigos.",
+    "Implement the '1 iOS-Native Clean with 6 Glass / Luxe surfaces' personality: generous paddings, legible Geist typography, and heavily utilize expo-glass-effect/expo-blur for sticky headers, tab bars, and floating components.",
+    "For the Match screen, build a stack of Tinder-like swipeable cards. Use react-native-reanimated for fluid physics. Cards MUST have a gradient scrim (top-to-bottom clear to surfaceInverse) to ensure text legibility over images.",
+    "For the Home screen, replicate an Instagram-style horizontal scroll view for Company Stories at the very top. Active stories get a brandPrimary ring outline.",
+    "For the Graph screen, create a zoomable/pannable node map. Keep the visual density manageable on mobile by using expanding nodes.",
+    "Ensure both Light and Dark modes are perfectly supported according to the detailed color tokens.",
+    "Use Phosphor icons consistently across the application (fill/outline variants correctly mapped to states)."
+  ]
+}
