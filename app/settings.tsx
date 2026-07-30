@@ -257,7 +257,7 @@ export default function Settings() {
                   },
                 ]}
               >
-                ASA Connect
+                Fecap Ágora
               </Text>
 
               <Text
@@ -349,7 +349,7 @@ function SettingsHeader({
             },
           ]}
         >
-          Personalize sua experiência no ASA Connect
+          Personalize sua experiência no Fecap Ágora
         </Text>
       </View>
     </View>

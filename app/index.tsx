@@ -45,7 +45,7 @@ export default function Splash() {
         <LinearGradient colors={[colors.brand, colors.brandPrimary]} style={styles.logoInner}>
           <Text style={[styles.logoText, { color: colors.onBrandPrimary, fontWeight: typography.weight.heavy }]}>A</Text>
         </LinearGradient>
-        <Text style={[styles.brand, { color: colors.onSurface, letterSpacing: -0.5 }]}>ASA Connect</Text>
+        <Text style={[styles.brand, { color: colors.onSurface, letterSpacing: -0.5 }]}>Fecap Ágora</Text>
         <Text style={[styles.tagline, { color: colors.onSurfaceTertiary }]}>Conecte-se ao seu futuro</Text>
       </Animated.View>
       <ActivityIndicator color={colors.brandPrimary} style={{ marginTop: 32 }} />

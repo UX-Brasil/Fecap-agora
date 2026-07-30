@@ -218,7 +218,7 @@ export default function Signup() {
                   </View>
 
                   <View>
-                    <Text style={styles.brandName}>ASA Connect</Text>
+                    <Text style={styles.brandName}>Fecap Ágora</Text>
 
                     <Text style={styles.brandCaption}>
                       Universidade, estudantes e empresas conectados
@@ -302,7 +302,7 @@ export default function Signup() {
 
               <View style={styles.heading}>
                 <Text style={styles.eyebrow}>
-                  FAÇA PARTE DO ASA CONNECT
+                  FAÇA PARTE DO Fecap Ágora
                 </Text>
 
                 <Text style={styles.title}>Crie sua conta</Text>

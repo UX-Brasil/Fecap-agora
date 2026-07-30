@@ -1,5 +1,5 @@
 // src/services/gamification.ts
-// Sistema inicial de gamificação do ASA Connect.
+// Sistema inicial de gamificação do Fecap Ágora.
 
 export type RankId =
   | "viajante"

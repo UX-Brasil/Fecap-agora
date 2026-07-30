@@ -1,5 +1,5 @@
 {
-  "app_name": "ASA Connect",
+  "app_name": "Fecap Ágora",
   "personality": "1 iOS-Native Clean with 6 Glass / Luxe surfaces",
   "personality_one_liner": "A premium, Apple-inspired professional networking hub that feels as fluid and visually engaging as a modern social app.",
   "color": {
@@ -130,7 +130,7 @@
       "name": "Splash",
       "purpose": "Brand presentation and loading.",
       "states": {
-        "loading": "Full bleed gradient background with ASA Connect logo. Subtle shimmer."
+        "loading": "Full bleed gradient background with Fecap Ágora logo. Subtle shimmer."
       },
       "layout": "Center aligned logo, bottom aligned copyright or loading spinner."
     },

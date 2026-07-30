@@ -59,11 +59,11 @@ export default function SupportScreen() {
 
   const openEmailSupport = async () => {
     const subject = encodeURIComponent(
-      "Suporte ASA Connect",
+      "Suporte Fecap Ágora",
     );
 
     const body = encodeURIComponent(
-      "Olá, preciso de ajuda com o ASA Connect.\n\nDescrição do problema:\n",
+      "Olá, preciso de ajuda com o Fecap Ágora.\n\nDescrição do problema:\n",
     );
 
     await Linking.openURL(

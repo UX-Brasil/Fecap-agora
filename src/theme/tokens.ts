@@ -1,4 +1,4 @@
-// Design tokens for ASA Connect — Emerald / Mint palette, iOS Native + Glass/Luxe personality.
+// Design tokens for Fecap Ágora — Emerald / Mint palette, iOS Native + Glass/Luxe personality.
 // Values are the source of truth for all styles.
 
 export const palette = {

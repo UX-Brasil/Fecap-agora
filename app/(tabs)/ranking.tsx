@@ -213,7 +213,7 @@ export default function RankingScreen() {
                   />
                 </View>
 
-                <Text style={styles.eyebrow}>ASA CONNECT</Text>
+                <Text style={styles.eyebrow}>Fecap Ágora</Text>
               </View>
 
               <Text style={styles.title}>Ranking</Text>

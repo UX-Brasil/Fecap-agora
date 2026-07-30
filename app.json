@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "ASA Connect",
-    "slug": "asa-connect",
+    "name": "Fecap Ágora",
+    "slug": "fecap-agora",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "asa-connect",
+    "scheme": "fecap-agora",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.emergent.asaconnect.fjenwl"
+      "bundleIdentifier": "br.com.fecap.agora"
     },
     "android": {
       "adaptiveIcon": {
@@ -18,7 +18,7 @@
         "backgroundColor": "#0F2B30"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.emergent.asaconnect.fjenwl"
+      "package": "br.com.fecap.agora"
     },
     "web": {
       "bundler": "metro",

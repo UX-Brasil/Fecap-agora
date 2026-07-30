@@ -34,7 +34,7 @@ export default function TermsScreen() {
     >
       <SettingsPageHeader
         title="Termos e política"
-        subtitle="Informações legais do ASA Connect"
+        subtitle="Informações legais do Fecap Ágora"
         onBack={() => router.back()}
       />
 
@@ -153,12 +153,12 @@ function TermsContent() {
     <>
       <LegalSection
         title="1. Aceitação dos termos"
-        text="Ao utilizar o ASA Connect, você concorda com estes termos de uso e com as regras aplicáveis à plataforma."
+        text="Ao utilizar o Fecap Ágora, você concorda com estes termos de uso e com as regras aplicáveis à plataforma."
       />
 
       <LegalSection
         title="2. Uso da plataforma"
-        text="O ASA Connect deve ser utilizado para networking, oportunidades acadêmicas, vagas, mentorias, eventos e atividades relacionadas à comunidade FECAP."
+        text="O Fecap Ágora deve ser utilizado para networking, oportunidades acadêmicas, vagas, mentorias, eventos e atividades relacionadas à comunidade FECAP."
       />
 
       <LegalSection
@@ -214,7 +214,7 @@ function PrivacyContent() {
 
       <LegalSection
         title="6. Contato"
-        text="Dúvidas relacionadas à privacidade podem ser encaminhadas à equipe responsável pelo ASA Connect."
+        text="Dúvidas relacionadas à privacidade podem ser encaminhadas à equipe responsável pelo Fecap Ágora."
       />
     </>
   );

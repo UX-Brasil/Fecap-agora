@@ -341,7 +341,7 @@ function WebNavbar({
                   },
                 ]}
               >
-                ASA Connect
+                Fecap Ágora
               </Text>
 
               <Text

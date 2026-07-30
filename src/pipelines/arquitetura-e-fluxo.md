@@ -17,7 +17,7 @@ O sistema é uma aplicação mobile baseada em:
    - Se não houver onboarding, ele é levado para a tela de introdução.
 
 2. Onboarding
-   - Apresenta os principais diferenciais do ASA Connect.
+   - Apresenta os principais diferenciais do Fecap Ágora.
    - Ao finalizar, salva o estado no armazenamento local.
 
 3. Autenticação

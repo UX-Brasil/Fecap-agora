@@ -1,6 +1,6 @@
-# Documentação do sistema ASA Connect
+# Documentação do sistema Fecap Ágora
 
-Esta pasta reúne a documentação principal do projeto mobile em React Native + Expo Router para o sistema ASA Connect.
+Esta pasta reúne a documentação principal do projeto mobile em React Native + Expo Router para o sistema Fecap Ágora.
 
 ## Visão geral
 

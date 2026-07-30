@@ -135,7 +135,7 @@ export default function Login() {
                   </View>
 
                   <View>
-                    <Text style={styles.brandName}>ASA Connect</Text>
+                    <Text style={styles.brandName}>Fecap Ágora</Text>
                     <Text style={styles.brandCaption}>
                       O ecossistema que aproxima talentos e oportunidades
                     </Text>
@@ -207,7 +207,7 @@ export default function Login() {
               </View>
 
               <View style={styles.heading}>
-                <Text style={styles.eyebrow}>BEM-VINDO AO ASA CONNECT</Text>
+                <Text style={styles.eyebrow}>BEM-VINDO AO Fecap Ágora</Text>
 
                 <Text style={styles.title}>Entre na sua conta</Text>
 

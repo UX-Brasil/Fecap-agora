@@ -283,7 +283,7 @@ export default function Profile() {
               },
             ]}
           >
-            ASA Connect • Versão 1.0.0
+            Fecap Ágora • Versão 1.0.0
           </Text>
         </View>
       </ScrollView>
