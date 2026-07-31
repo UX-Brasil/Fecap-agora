@@ -39,6 +39,13 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "42cd0acb-d50b-45fa-8cf5-68bcd514aa6c"
+      }
+    },
+    "owner": "uxbrasil"
   }
 }
