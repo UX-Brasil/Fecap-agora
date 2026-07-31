@@ -10,11 +10,12 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useTheme } from "@/src/theme/ThemeContext";
 
 const WEB_NAVBAR_HEIGHT = 72;
-const MOBILE_TABBAR_HEIGHT = 84;
+const MOBILE_TABBAR_HEIGHT = 76;
 const WEB_CONTENT_MAX_WIDTH = 1280;
 
 type TabIconName =
@@ -70,22 +71,25 @@ const TAB_ICONS: Record<
 };
 
 export default function TabsLayout() {
-  const { colors, mode } = useTheme();
+  const { colors } = useTheme();
   const { width } = useWindowDimensions();
 
   const isWeb = Platform.OS === "web";
-  const isCompactWeb = isWeb && width < 900;
+  const isCompactWeb = isWeb && width < 1080;
+  const usesBottomAppBar = !isWeb || isCompactWeb;
 
   return (
     <Tabs
-      tabBar={
-        isWeb
-          ? (props) => <WebNavbar {...props} compact={isCompactWeb} />
-          : undefined
+      tabBar={(props) =>
+        usesBottomAppBar ? (
+          <MobileAppTabBar {...props} />
+        ) : (
+          <WebNavbar {...props} />
+        )
       }
       screenOptions={{
         headerShown: false,
-        tabBarShowLabel: true,
+        tabBarShowLabel: false,
 
         tabBarActiveTintColor: colors.brandPrimary,
         tabBarInactiveTintColor: colors.onSurfaceTertiary,
@@ -93,78 +97,8 @@ export default function TabsLayout() {
         sceneStyle: {
           backgroundColor: colors.surface,
 
-          /*
-           * Como a navbar web fica posicionada no topo,
-           * reservamos espaço para ela não cobrir a tela.
-           */
-          paddingTop: isWeb ? WEB_NAVBAR_HEIGHT : 0,
-        },
-
-        tabBarStyle: isWeb
-          ? {
-              display: "none",
-            }
-          : {
-              position: "absolute",
-              left: 0,
-              right: 0,
-              bottom: 0,
-
-              height: MOBILE_TABBAR_HEIGHT,
-              paddingTop: 8,
-              paddingBottom: 24,
-
-              borderTopWidth: StyleSheet.hairlineWidth,
-              borderTopColor: colors.border,
-
-              backgroundColor:
-                Platform.OS === "android" ? colors.surface : "transparent",
-
-              elevation: 0,
-
-              shadowColor: "#000000",
-              shadowOffset: {
-                width: 0,
-                height: -3,
-              },
-              shadowOpacity: mode === "dark" ? 0.2 : 0.06,
-              shadowRadius: 10,
-            },
-
-        tabBarBackground: () => {
-          if (isWeb) {
-            return null;
-          }
-
-          if (Platform.OS === "ios") {
-            return (
-              <BlurView
-                intensity={80}
-                tint={mode === "dark" ? "dark" : "light"}
-                style={StyleSheet.absoluteFill}
-              />
-            );
-          }
-
-          return (
-            <View
-              style={[
-                StyleSheet.absoluteFill,
-                {
-                  backgroundColor: colors.surface,
-                },
-              ]}
-            />
-          );
-        },
-
-        tabBarLabelStyle: {
-          fontSize: 11,
-          fontWeight: "600",
-        },
-
-        tabBarItemStyle: {
-          paddingTop: 2,
+          paddingTop: isWeb && !usesBottomAppBar ? WEB_NAVBAR_HEIGHT : 0,
+          paddingBottom: usesBottomAppBar ? MOBILE_TABBAR_HEIGHT + 24 : 0,
         },
 
         tabBarHideOnKeyboard: true,
@@ -275,16 +209,136 @@ export default function TabsLayout() {
   );
 }
 
-type WebNavbarProps = BottomTabBarProps & {
-  compact: boolean;
-};
+function MobileAppTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
+  const { colors, mode, typography } = useTheme();
+  const insets = useSafeAreaInsets();
 
-function WebNavbar({
-  state,
-  descriptors,
-  navigation,
-  compact,
-}: WebNavbarProps) {
+  const bottomInset = Math.max(insets.bottom, 10);
+
+  return (
+    <View
+      pointerEvents="box-none"
+      style={[
+        styles.mobileTabBarWrap,
+        {
+          paddingBottom: bottomInset,
+        },
+      ]}
+    >
+      <View
+        style={[
+          styles.mobileTabBar,
+          {
+            backgroundColor:
+              Platform.OS === "ios" || Platform.OS === "web"
+                ? mode === "dark"
+                  ? `${colors.surfaceSecondary}D9`
+                  : `${colors.surfaceSecondary}F0`
+                : colors.surfaceSecondary,
+            borderColor: colors.border,
+            shadowOpacity: mode === "dark" ? 0.28 : 0.1,
+          },
+        ]}
+      >
+        {Platform.OS === "ios" ? (
+          <BlurView
+            intensity={70}
+            tint={mode === "dark" ? "dark" : "light"}
+            style={StyleSheet.absoluteFill}
+          />
+        ) : null}
+
+        {state.routes.map((route, index) => {
+          const descriptor = descriptors[route.key];
+          const options = descriptor.options;
+          const isFocused = state.index === index;
+          const title =
+            typeof options.title === "string" ? options.title : route.name;
+          const icons = TAB_ICONS[route.name];
+
+          const handlePress = () => {
+            const event = navigation.emit({
+              type: "tabPress",
+              target: route.key,
+              canPreventDefault: true,
+            });
+
+            if (!isFocused && !event.defaultPrevented) {
+              navigation.navigate(route.name, route.params);
+            }
+          };
+
+          const handleLongPress = () => {
+            navigation.emit({
+              type: "tabLongPress",
+              target: route.key,
+            });
+          };
+
+          return (
+            <Pressable
+              key={route.key}
+              onPress={handlePress}
+              onLongPress={handleLongPress}
+              accessibilityRole="button"
+              accessibilityState={isFocused ? { selected: true } : {}}
+              accessibilityLabel={options.tabBarAccessibilityLabel ?? title}
+              testID={options.tabBarButtonTestID}
+              style={({ pressed }) => [
+                styles.mobileTabItem,
+                isFocused && styles.mobileTabItemActive,
+                {
+                  backgroundColor: isFocused
+                    ? `${colors.brandPrimary}18`
+                    : "transparent",
+                  opacity: pressed ? 0.68 : 1,
+                },
+              ]}
+            >
+              <View
+                style={[
+                  styles.mobileIconBubble,
+                  {
+                    backgroundColor: isFocused
+                      ? colors.brandPrimary
+                      : colors.surfaceTertiary,
+                  },
+                ]}
+              >
+                {icons ? (
+                  <Ionicons
+                    name={isFocused ? icons.focused : icons.unfocused}
+                    size={20}
+                    color={
+                      isFocused ? colors.onBrandPrimary : colors.onSurfaceTertiary
+                    }
+                  />
+                ) : null}
+              </View>
+
+              {isFocused ? (
+                <Text
+                  numberOfLines={1}
+                  style={[
+                    styles.mobileTabLabel,
+                    {
+                      color: colors.brandPrimary,
+                      fontWeight: typography.weight.bold,
+                    },
+                  ]}
+                >
+                  {title}
+                </Text>
+              ) : null}
+            </Pressable>
+          );
+        })}
+      </View>
+    </View>
+  );
+}
+
+function WebNavbar({ state, descriptors, navigation }: BottomTabBarProps) {
   const { colors, mode, typography } = useTheme();
 
   return (
@@ -329,34 +383,32 @@ function WebNavbar({
             <Ionicons name="people" size={21} color={colors.onBrandPrimary} />
           </View>
 
-          {!compact ? (
-            <View style={styles.brandTextContainer}>
-              <Text
-                numberOfLines={1}
-                style={[
-                  styles.brandTitle,
-                  {
-                    color: colors.onSurface,
-                    fontWeight: typography.weight.heavy,
-                  },
-                ]}
-              >
-                Fecap Ágora
-              </Text>
+          <View style={styles.brandTextContainer}>
+            <Text
+              numberOfLines={1}
+              style={[
+                styles.brandTitle,
+                {
+                  color: colors.onSurface,
+                  fontWeight: typography.weight.heavy,
+                },
+              ]}
+            >
+              Fecap Ágora
+            </Text>
 
-              <Text
-                numberOfLines={1}
-                style={[
-                  styles.brandSubtitle,
-                  {
-                    color: colors.onSurfaceTertiary,
-                  },
-                ]}
-              >
-                Rede profissional FECAP
-              </Text>
-            </View>
-          ) : null}
+            <Text
+              numberOfLines={1}
+              style={[
+                styles.brandSubtitle,
+                {
+                  color: colors.onSurfaceTertiary,
+                },
+              ]}
+            >
+              Rede profissional FECAP
+            </Text>
+          </View>
         </Pressable>
 
         <View style={styles.webNavigation}>
@@ -408,10 +460,9 @@ function WebNavbar({
                 testID={options.tabBarButtonTestID}
                 style={({ hovered, pressed }) => [
                   styles.webNavItem,
-                  compact && styles.webNavItemCompact,
                   {
                     backgroundColor: isFocused
-                      ? `${colors.brandPrimary}12`
+                      ? `${colors.brandPrimary}16`
                       : hovered
                         ? colors.surfaceSecondary
                         : "transparent",
@@ -425,34 +476,45 @@ function WebNavbar({
                 ]}
               >
                 {icons ? (
-                  <Ionicons
-                    name={isFocused ? icons.focused : icons.unfocused}
-                    size={compact ? 19 : 20}
-                    color={
-                      isFocused ? colors.brandPrimary : colors.onSurfaceTertiary
-                    }
-                  />
-                ) : null}
-
-                {!compact ? (
-                  <Text
-                    numberOfLines={1}
+                  <View
                     style={[
-                      styles.webNavLabel,
+                      styles.webIconBubble,
                       {
-                        color: isFocused
+                        backgroundColor: isFocused
                           ? colors.brandPrimary
-                          : colors.onSurfaceSecondary,
-
-                        fontWeight: isFocused
-                          ? typography.weight.bold
-                          : typography.weight.medium,
+                          : colors.surfaceTertiary,
                       },
                     ]}
                   >
-                    {title}
-                  </Text>
+                    <Ionicons
+                      name={isFocused ? icons.focused : icons.unfocused}
+                      size={18}
+                      color={
+                        isFocused
+                          ? colors.onBrandPrimary
+                          : colors.onSurfaceTertiary
+                      }
+                    />
+                  </View>
                 ) : null}
+
+                <Text
+                  numberOfLines={1}
+                  style={[
+                    styles.webNavLabel,
+                    {
+                      color: isFocused
+                        ? colors.brandPrimary
+                        : colors.onSurfaceSecondary,
+
+                      fontWeight: isFocused
+                        ? typography.weight.bold
+                        : typography.weight.medium,
+                    },
+                  ]}
+                >
+                  {title}
+                </Text>
 
                 {isFocused ? (
                   <View
@@ -469,44 +531,129 @@ function WebNavbar({
           })}
         </View>
 
-        {!compact ? (
+        <View
+          style={[
+            styles.webStatus,
+            {
+              backgroundColor: colors.surfaceSecondary,
+              borderColor: colors.border,
+            },
+          ]}
+        >
           <View
             style={[
-              styles.webStatus,
+              styles.webStatusDot,
               {
-                backgroundColor: colors.surfaceSecondary,
-                borderColor: colors.border,
+                backgroundColor: colors.like,
+              },
+            ]}
+          />
+
+          <Text
+            style={[
+              styles.webStatusText,
+              {
+                color: colors.onSurfaceSecondary,
+                fontWeight: typography.weight.semibold,
               },
             ]}
           >
-            <View
-              style={[
-                styles.webStatusDot,
-                {
-                  backgroundColor: colors.like,
-                },
-              ]}
-            />
-
-            <Text
-              style={[
-                styles.webStatusText,
-                {
-                  color: colors.onSurfaceSecondary,
-                  fontWeight: typography.weight.semibold,
-                },
-              ]}
-            >
-              FECAP
-            </Text>
-          </View>
-        ) : null}
+            FECAP
+          </Text>
+        </View>
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  mobileTabBarWrap: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
+
+    zIndex: 1000,
+
+    paddingHorizontal: 14,
+    paddingTop: 10,
+
+    ...Platform.select({
+      web: {
+        position: "fixed" as never,
+      },
+    }),
+  },
+
+  mobileTabBar: {
+    width: "100%",
+    maxWidth: 520,
+    height: MOBILE_TABBAR_HEIGHT,
+
+    alignSelf: "center",
+    overflow: "hidden",
+
+    borderRadius: 28,
+    borderWidth: StyleSheet.hairlineWidth,
+
+    paddingHorizontal: 8,
+
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+
+    shadowColor: "#000000",
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowRadius: 24,
+    elevation: 10,
+
+    ...Platform.select({
+      web: {
+        backdropFilter: "blur(18px)" as never,
+      },
+    }),
+  },
+
+  mobileTabItem: {
+    height: 54,
+    minWidth: 48,
+
+    borderRadius: 22,
+
+    paddingHorizontal: 8,
+
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+
+    gap: 7,
+  },
+
+  mobileTabItemActive: {
+    flexGrow: 1,
+    maxWidth: 118,
+  },
+
+  mobileIconBubble: {
+    width: 36,
+    height: 36,
+
+    borderRadius: 18,
+
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  mobileTabLabel: {
+    maxWidth: 62,
+
+    fontSize: 11,
+    lineHeight: 14,
+  },
+
   webNavbar: {
     position: "absolute",
     top: 0,
@@ -603,18 +750,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
 
-    gap: 5,
+    gap: 8,
   },
 
   webNavItem: {
     position: "relative",
 
-    minWidth: 92,
-    height: 44,
+    minWidth: 102,
+    height: 50,
 
-    paddingHorizontal: 14,
+    paddingHorizontal: 10,
 
-    borderRadius: 13,
+    borderRadius: 20,
     borderWidth: 1,
 
     flexDirection: "row",
@@ -624,16 +771,19 @@ const styles = StyleSheet.create({
     gap: 7,
   },
 
-  webNavItemCompact: {
-    minWidth: 48,
-    width: 48,
-
-    paddingHorizontal: 0,
-  },
-
   webNavLabel: {
     fontSize: 12,
     lineHeight: 16,
+  },
+
+  webIconBubble: {
+    width: 32,
+    height: 32,
+
+    borderRadius: 16,
+
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   activeIndicator: {
